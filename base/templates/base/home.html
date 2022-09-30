@@ -1,0 +1,9 @@
+{% extends 'main.html' %} {% block content %}
+
+<h1>All Todos</h1>
+
+{% for todo in todos %}
+
+<h5>{{todo.id}}. {{todo.name}}</h5>
+
+{% endfor %} {% endblock content %}
