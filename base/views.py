@@ -28,3 +28,31 @@ def createTodo(request):
     context = {'form' : form}
 
     return render(request,'base/create.html',context)
+
+def editTodo(request,pk):
+    todo = Todo.objects.get(id=pk)
+
+    form = TodoForm(instance=todo)
+
+    if request.method == 'POST':
+        form = TodoForm(request.POST,instance=todo)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form':form}
+
+    return render(request,'base/create.html',context)
+
+def deleteTodo(request,pk):
+    todo = Todo.objects.get(id=pk)
+
+    context = {'todo':todo}
+
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('home')
+
+    return render(request,'base/delete.html',context)
+
+

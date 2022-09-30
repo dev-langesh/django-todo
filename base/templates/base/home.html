@@ -6,6 +6,10 @@
 
 {% for todo in todos %}
 
-<h5>{{todo.id}}. {{todo.name}}</h5>
+<h5>
+  {{todo.id}}. {{todo.name}}
+  <a href="{% url 'edit' todo.id %}">Edit</a>
+  <a href="{% url 'delete' todo.id %}">Delete</a>
+</h5>
 
 {% endfor %} {% endblock content %}
