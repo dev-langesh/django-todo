@@ -8,4 +8,5 @@ urlpatterns = [
     path('create/',views.createTodo,name='create'),
     path('edit/<int:pk>',views.editTodo,name='edit'),
     path('delete/<int:pk>',views.deleteTodo,name='delete'),
+    path("login/",views.loginUser,name='login')
 ]

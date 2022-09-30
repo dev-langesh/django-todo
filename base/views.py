@@ -1,10 +1,39 @@
 from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from .forms import TodoForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login , authenticate , logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 from .models import Todo
+
+def loginUser(request):
+
+   if request.user.is_authenticated :
+        return redirect('home')
+
+   if request.method == 'POST':
+    username = request.POST.get("username")
+    password = request.POST.get('password')
+
+    try:
+        user = User.objects.get(username = username)
+    except :
+        return HttpResponse("User not found")
+
+    user = authenticate(request,username=username,password=password)
+
+    if user is not None:
+        login(request,user)
+        return redirect('home')
+
+
+
+    print(user)
+
+   return render(request,'base/login.html')
 
 def getTodos(request):
 
@@ -14,6 +43,7 @@ def getTodos(request):
 
     return render(request,'base/home.html',context)
 
+@login_required(login_url='login')
 def createTodo(request):
 
     form = TodoForm()
@@ -29,6 +59,7 @@ def createTodo(request):
 
     return render(request,'base/create.html',context)
 
+@login_required(login_url='login')
 def editTodo(request,pk):
     todo = Todo.objects.get(id=pk)
 
@@ -44,6 +75,7 @@ def editTodo(request,pk):
 
     return render(request,'base/create.html',context)
 
+@login_required(login_url='login')
 def deleteTodo(request,pk):
     todo = Todo.objects.get(id=pk)
 
