@@ -1,5 +1,7 @@
 {% extends 'main.html' %} {% block content %}
 
+<a href="{% url 'create' %}">Create todo</a>
+
 <h1>All Todos</h1>
 
 {% for todo in todos %}
