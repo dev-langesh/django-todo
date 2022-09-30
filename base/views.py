@@ -29,11 +29,11 @@ def loginUser(request):
         login(request,user)
         return redirect('home')
 
-
-
-    print(user)
-
    return render(request,'base/login.html')
+
+def logoutUser(request):
+    logout(request)
+    return redirect("home")
 
 def getTodos(request):
 
