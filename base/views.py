@@ -4,6 +4,7 @@ from .forms import TodoForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login , authenticate , logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
@@ -21,13 +22,16 @@ def loginUser(request):
     try:
         user = User.objects.get(username = username)
     except :
-        return HttpResponse("User not found")
+        messages.error(request,"User not found")
 
     user = authenticate(request,username=username,password=password)
 
     if user is not None:
         login(request,user)
         return redirect('home')
+
+    else :
+        messages.error(request,"Invalid credentials")
 
    return render(request,'base/login.html')
 
