@@ -5,10 +5,30 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login , authenticate , logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm  
 
 # Create your views here.
 
 from .models import Todo
+
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request,user)
+            return redirect('home')
+        else:
+           messages.error(request,"Invalid credentials")
+
+    context = {'form' : form}
+
+    return render(request,'base/register.html',context)
 
 def loginUser(request):
 
