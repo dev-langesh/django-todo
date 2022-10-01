@@ -59,9 +59,10 @@ def logoutUser(request):
     logout(request)
     return redirect("home")
 
+@login_required(login_url="login")
 def getTodos(request):
 
-    data = Todo.objects.all()
+    data = Todo.objects.filter(host=request.user)
 
     context = {'todos' : data}
 
